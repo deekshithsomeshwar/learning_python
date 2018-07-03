@@ -1,48 +1,61 @@
 """ THis is a trial project to work as an atm"""
 
 import getpass
+import os
 
-current_balance = 1000
+current_balance = 500
 pin = 1234
 cust_name = "Raja"
 draw_limit = 1000
-success = False
+repeat = True
 
-i = 0
-l = 3
 
 def main():
+    count = 0
+    pin = 1234
+    while count <4:
+        input=int(getpass.getpass('Enter pin: '))
+        if input == pin:
+            print("Access granted")
+            break
+        else:
+            print("Access denied")
+            count -=1
+
+if __name__=='__main__':
+    main()
+
+def option():
     print ("1: withdraw cash, 2: deposit cash, 3: check balance, 4: quit")
     return input ("What would you like to do today?: ")
+run = option()
 
 
-run = main()
-input = int(getpass.getpass("Enter your pin number: "))
-while input == pin:
-    if run == 1:
-        while True:
-            amount = int(raw_input("How much would you like to withdraw: "))
-            if amount <= 1000:
-                print ("Dispensing!! New balance is ${}" . format(current_balance - amount))
-            elif amount > 1000:
-                print ("Amount cannot exceed 1000")
-            elif amount > current_balance:
-                print ("Insufficient balance. Your current available balance is ${}". format(current_balance))
-                print ("")
-    elif run == 2:
-        while True:
-            if input == pin:
-                amount = int(raw_input("How much would you like to deposit: "))
-                print("Update balance is ${}" .format(current_balance + amount))
-            elif input != pin:
-                input = int(getpass.getpass("wrong pin, enter again "))
+while  True:
+    while run == 1:
+        amount = int(raw_input("How much would you like to withdraw: "))
+        if amount <= current_balance:
+            print ("Dispensing!! New balance is ${}" . format(current_balance - amount))
+            current_balance=current_balance - amount
             break
-    elif run == 3:
-        if input == pin:
-            print("Your current balance is ${}" .format(current_balance))
-        elif input != pin:
-            input = int(getpass.getpass("wrong pin, enter again "))
+        elif amount > current_balance:
+            print ("Insufficient balance. Your current available balance is ${}". format(current_balance))
+            break
+    while run == 2:
+        amount = int(raw_input("How much would you like to deposit: "))
+        print("Update balance is ${}" .format(current_balance + amount))
+        current_balance = current_balance + amount
         break
-    elif run == 4:
-        print("Thank you")
+    while run == 3:
+        print("Your current balance is ${}" .format(current_balance))
         break
+    while run == 4:
+        print("Closing!! Thank you")
+        quit()
+    if run > 4:
+        print "Option not available!"
+    optional = raw_input("Do you wish to continue? Y: yes, N: no: ")
+    if optional == "N" or optional =="n":
+        quit()
+    elif optional== "Y" or optional== "y":
+        run = option()
